@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="my.portal.dao.SortMapper" >
+  <resultMap id="BaseResultMap" type="my.portal.pojo.Sort" >
+    <id column="sort_id" property="sortId" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="sort_name" property="sortName" jdbcType="VARCHAR" />
+    <result column="sort_created" property="sortCreated" jdbcType="TIMESTAMP" />
+    <result column="sort_updated" property="sortUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sort_id, parent_id, sort_name, sort_created, sort_updated
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="my.portal.pojo.SortExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sort
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sort
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sort
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="my.portal.pojo.SortExample" >
+    delete from sort
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="my.portal.pojo.Sort" >
+    insert into sort (sort_id, parent_id, sort_name, 
+      sort_created, sort_updated)
+    values (#{sortId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{sortName,jdbcType=VARCHAR}, 
+      #{sortCreated,jdbcType=TIMESTAMP}, #{sortUpdated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="my.portal.pojo.Sort" >
+    insert into sort
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sortId != null" >
+        sort_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="sortName != null" >
+        sort_name,
+      </if>
+      <if test="sortCreated != null" >
+        sort_created,
+      </if>
+      <if test="sortUpdated != null" >
+        sort_updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sortId != null" >
+        #{sortId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sortName != null" >
+        #{sortName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortCreated != null" >
+        #{sortCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortUpdated != null" >
+        #{sortUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="my.portal.pojo.SortExample" resultType="java.lang.Integer" >
+    select count(*) from sort
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sort
+    <set >
+      <if test="record.sortId != null" >
+        sort_id = #{record.sortId,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sortName != null" >
+        sort_name = #{record.sortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortCreated != null" >
+        sort_created = #{record.sortCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sortUpdated != null" >
+        sort_updated = #{record.sortUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sort
+    set sort_id = #{record.sortId,jdbcType=BIGINT},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      sort_name = #{record.sortName,jdbcType=VARCHAR},
+      sort_created = #{record.sortCreated,jdbcType=TIMESTAMP},
+      sort_updated = #{record.sortUpdated,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="my.portal.pojo.Sort" >
+    update sort
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sortName != null" >
+        sort_name = #{sortName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortCreated != null" >
+        sort_created = #{sortCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortUpdated != null" >
+        sort_updated = #{sortUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="my.portal.pojo.Sort" >
+    update sort
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      sort_name = #{sortName,jdbcType=VARCHAR},
+      sort_created = #{sortCreated,jdbcType=TIMESTAMP},
+      sort_updated = #{sortUpdated,jdbcType=TIMESTAMP}
+    where sort_id = #{sortId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="my.portal.dao.BlogMapper" >
+  <resultMap id="BaseResultMap" type="my.portal.pojo.Blog" >
+    <id column="blog_id" property="blogId" jdbcType="BIGINT" />
+    <result column="blog_title" property="blogTitle" jdbcType="VARCHAR" />
+    <result column="blog_author" property="blogAuthor" jdbcType="VARCHAR" />
+    <result column="blog_photo" property="blogPhoto" jdbcType="VARCHAR" />
+    <result column="blog_sort" property="blogSort" jdbcType="VARCHAR" />
+    <result column="blog_see_number" property="blogSeeNumber" jdbcType="BIGINT" />
+    <result column="blog_comment_number" property="blogCommentNumber" jdbcType="BIGINT" />
+    <result column="blog_created" property="blogCreated" jdbcType="TIMESTAMP" />
+    <result column="blog_updated" property="blogUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="my.portal.pojo.BlogWithBLOBs" extends="BaseResultMap" >
+    <result column="blog_body" property="blogBody" jdbcType="LONGVARCHAR" />
+    <result column="blog_comment" property="blogComment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    blog_id, blog_title, blog_author, blog_photo, blog_sort, blog_see_number, blog_comment_number, 
+    blog_created, blog_updated
+  </sql>
+  <sql id="Blob_Column_List" >
+    blog_body, blog_comment
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="my.portal.pojo.BlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="my.portal.pojo.BlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blog
+    where blog_id = #{blogId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="my.portal.pojo.BlogExample" >
+    delete from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="my.portal.pojo.BlogWithBLOBs" >
+    insert into blog (blog_id, blog_title, blog_author, 
+      blog_photo, blog_sort, blog_see_number, 
+      blog_comment_number, blog_created, blog_updated, 
+      blog_body, blog_comment)
+    values (#{blogId,jdbcType=BIGINT}, #{blogTitle,jdbcType=VARCHAR}, #{blogAuthor,jdbcType=VARCHAR}, 
+      #{blogPhoto,jdbcType=VARCHAR}, #{blogSort,jdbcType=VARCHAR}, #{blogSeeNumber,jdbcType=BIGINT}, 
+      #{blogCommentNumber,jdbcType=BIGINT}, #{blogCreated,jdbcType=TIMESTAMP}, #{blogUpdated,jdbcType=TIMESTAMP}, 
+      #{blogBody,jdbcType=LONGVARCHAR}, #{blogComment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="my.portal.pojo.BlogWithBLOBs" >
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="blogId != null" >
+        blog_id,
+      </if>
+      <if test="blogTitle != null" >
+        blog_title,
+      </if>
+      <if test="blogAuthor != null" >
+        blog_author,
+      </if>
+      <if test="blogPhoto != null" >
+        blog_photo,
+      </if>
+      <if test="blogSort != null" >
+        blog_sort,
+      </if>
+      <if test="blogSeeNumber != null" >
+        blog_see_number,
+      </if>
+      <if test="blogCommentNumber != null" >
+        blog_comment_number,
+      </if>
+      <if test="blogCreated != null" >
+        blog_created,
+      </if>
+      <if test="blogUpdated != null" >
+        blog_updated,
+      </if>
+      <if test="blogBody != null" >
+        blog_body,
+      </if>
+      <if test="blogComment != null" >
+        blog_comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="blogId != null" >
+        #{blogId,jdbcType=BIGINT},
+      </if>
+      <if test="blogTitle != null" >
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuthor != null" >
+        #{blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPhoto != null" >
+        #{blogPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSort != null" >
+        #{blogSort,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSeeNumber != null" >
+        #{blogSeeNumber,jdbcType=BIGINT},
+      </if>
+      <if test="blogCommentNumber != null" >
+        #{blogCommentNumber,jdbcType=BIGINT},
+      </if>
+      <if test="blogCreated != null" >
+        #{blogCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogUpdated != null" >
+        #{blogUpdated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogBody != null" >
+        #{blogBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="blogComment != null" >
+        #{blogComment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="my.portal.pojo.BlogExample" resultType="java.lang.Integer" >
+    select count(*) from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog
+    <set >
+      <if test="record.blogId != null" >
+        blog_id = #{record.blogId,jdbcType=BIGINT},
+      </if>
+      <if test="record.blogTitle != null" >
+        blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogAuthor != null" >
+        blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogPhoto != null" >
+        blog_photo = #{record.blogPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogSort != null" >
+        blog_sort = #{record.blogSort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogSeeNumber != null" >
+        blog_see_number = #{record.blogSeeNumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.blogCommentNumber != null" >
+        blog_comment_number = #{record.blogCommentNumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.blogCreated != null" >
+        blog_created = #{record.blogCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blogUpdated != null" >
+        blog_updated = #{record.blogUpdated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blogBody != null" >
+        blog_body = #{record.blogBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.blogComment != null" >
+        blog_comment = #{record.blogComment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog
+    set blog_id = #{record.blogId,jdbcType=BIGINT},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      blog_photo = #{record.blogPhoto,jdbcType=VARCHAR},
+      blog_sort = #{record.blogSort,jdbcType=VARCHAR},
+      blog_see_number = #{record.blogSeeNumber,jdbcType=BIGINT},
+      blog_comment_number = #{record.blogCommentNumber,jdbcType=BIGINT},
+      blog_created = #{record.blogCreated,jdbcType=TIMESTAMP},
+      blog_updated = #{record.blogUpdated,jdbcType=TIMESTAMP},
+      blog_body = #{record.blogBody,jdbcType=LONGVARCHAR},
+      blog_comment = #{record.blogComment,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog
+    set blog_id = #{record.blogId,jdbcType=BIGINT},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      blog_photo = #{record.blogPhoto,jdbcType=VARCHAR},
+      blog_sort = #{record.blogSort,jdbcType=VARCHAR},
+      blog_see_number = #{record.blogSeeNumber,jdbcType=BIGINT},
+      blog_comment_number = #{record.blogCommentNumber,jdbcType=BIGINT},
+      blog_created = #{record.blogCreated,jdbcType=TIMESTAMP},
+      blog_updated = #{record.blogUpdated,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="my.portal.pojo.BlogWithBLOBs" >
+    update blog
+    <set >
+      <if test="blogTitle != null" >
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuthor != null" >
+        blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPhoto != null" >
+        blog_photo = #{blogPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSort != null" >
+        blog_sort = #{blogSort,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSeeNumber != null" >
+        blog_see_number = #{blogSeeNumber,jdbcType=BIGINT},
+      </if>
+      <if test="blogCommentNumber != null" >
+        blog_comment_number = #{blogCommentNumber,jdbcType=BIGINT},
+      </if>
+      <if test="blogCreated != null" >
+        blog_created = #{blogCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogUpdated != null" >
+        blog_updated = #{blogUpdated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogBody != null" >
+        blog_body = #{blogBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="blogComment != null" >
+        blog_comment = #{blogComment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="my.portal.pojo.BlogWithBLOBs" >
+    update blog
+    set blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      blog_photo = #{blogPhoto,jdbcType=VARCHAR},
+      blog_sort = #{blogSort,jdbcType=VARCHAR},
+      blog_see_number = #{blogSeeNumber,jdbcType=BIGINT},
+      blog_comment_number = #{blogCommentNumber,jdbcType=BIGINT},
+      blog_created = #{blogCreated,jdbcType=TIMESTAMP},
+      blog_updated = #{blogUpdated,jdbcType=TIMESTAMP},
+      blog_body = #{blogBody,jdbcType=LONGVARCHAR},
+      blog_comment = #{blogComment,jdbcType=LONGVARCHAR}
+    where blog_id = #{blogId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="my.portal.pojo.Blog" >
+    update blog
+    set blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      blog_photo = #{blogPhoto,jdbcType=VARCHAR},
+      blog_sort = #{blogSort,jdbcType=VARCHAR},
+      blog_see_number = #{blogSeeNumber,jdbcType=BIGINT},
+      blog_comment_number = #{blogCommentNumber,jdbcType=BIGINT},
+      blog_created = #{blogCreated,jdbcType=TIMESTAMP},
+      blog_updated = #{blogUpdated,jdbcType=TIMESTAMP}
+    where blog_id = #{blogId,jdbcType=BIGINT}
+  </update>
+</mapper>

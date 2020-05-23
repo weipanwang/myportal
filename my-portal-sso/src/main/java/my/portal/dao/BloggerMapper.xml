@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="my.portal.dao.BloggerMapper" >
+  <resultMap id="BaseResultMap" type="my.portal.pojo.Blogger" >
+    <id column="blogger_id" property="bloggerId" jdbcType="BIGINT" />
+    <result column="blogger_name" property="bloggerName" jdbcType="VARCHAR" />
+    <result column="blogger_city" property="bloggerCity" jdbcType="VARCHAR" />
+    <result column="blogger_show" property="bloggerShow" jdbcType="VARCHAR" />
+    <result column="blogger_head" property="bloggerHead" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    blogger_id, blogger_name, blogger_city, blogger_show, blogger_head, created, updated
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="my.portal.pojo.BloggerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blogger
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from blogger
+    where blogger_id = #{bloggerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blogger
+    where blogger_id = #{bloggerId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="my.portal.pojo.BloggerExample" >
+    delete from blogger
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="my.portal.pojo.Blogger" >
+    insert into blogger (blogger_id, blogger_name, blogger_city, 
+      blogger_show, blogger_head, created, 
+      updated)
+    values (#{bloggerId,jdbcType=BIGINT}, #{bloggerName,jdbcType=VARCHAR}, #{bloggerCity,jdbcType=VARCHAR}, 
+      #{bloggerShow,jdbcType=VARCHAR}, #{bloggerHead,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="my.portal.pojo.Blogger" >
+    insert into blogger
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bloggerId != null" >
+        blogger_id,
+      </if>
+      <if test="bloggerName != null" >
+        blogger_name,
+      </if>
+      <if test="bloggerCity != null" >
+        blogger_city,
+      </if>
+      <if test="bloggerShow != null" >
+        blogger_show,
+      </if>
+      <if test="bloggerHead != null" >
+        blogger_head,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bloggerId != null" >
+        #{bloggerId,jdbcType=BIGINT},
+      </if>
+      <if test="bloggerName != null" >
+        #{bloggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerCity != null" >
+        #{bloggerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerShow != null" >
+        #{bloggerShow,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerHead != null" >
+        #{bloggerHead,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="my.portal.pojo.BloggerExample" resultType="java.lang.Integer" >
+    select count(*) from blogger
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blogger
+    <set >
+      <if test="record.bloggerId != null" >
+        blogger_id = #{record.bloggerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.bloggerName != null" >
+        blogger_name = #{record.bloggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bloggerCity != null" >
+        blogger_city = #{record.bloggerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bloggerShow != null" >
+        blogger_show = #{record.bloggerShow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bloggerHead != null" >
+        blogger_head = #{record.bloggerHead,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blogger
+    set blogger_id = #{record.bloggerId,jdbcType=BIGINT},
+      blogger_name = #{record.bloggerName,jdbcType=VARCHAR},
+      blogger_city = #{record.bloggerCity,jdbcType=VARCHAR},
+      blogger_show = #{record.bloggerShow,jdbcType=VARCHAR},
+      blogger_head = #{record.bloggerHead,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="my.portal.pojo.Blogger" >
+    update blogger
+    <set >
+      <if test="bloggerName != null" >
+        blogger_name = #{bloggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerCity != null" >
+        blogger_city = #{bloggerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerShow != null" >
+        blogger_show = #{bloggerShow,jdbcType=VARCHAR},
+      </if>
+      <if test="bloggerHead != null" >
+        blogger_head = #{bloggerHead,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where blogger_id = #{bloggerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="my.portal.pojo.Blogger" >
+    update blogger
+    set blogger_name = #{bloggerName,jdbcType=VARCHAR},
+      blogger_city = #{bloggerCity,jdbcType=VARCHAR},
+      blogger_show = #{bloggerShow,jdbcType=VARCHAR},
+      blogger_head = #{bloggerHead,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where blogger_id = #{bloggerId,jdbcType=BIGINT}
+  </update>
+</mapper>
