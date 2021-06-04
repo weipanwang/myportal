@@ -16,7 +16,7 @@
 		<jackson.version>2.4.2</jackson.version>
 		<jackson1.version>2.8.5</jackson1.version>
 		<druid.version>1.0.9</druid.version>
-		<httpclient.version>4.3.5</httpclient.version>
+		<httpclient.version>4.5.13</httpclient.version>
 		<jstl.version>1.2</jstl.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.0</jsp-api.version>
@@ -34,7 +34,7 @@
 		<quartz.version>2.2.2</quartz.version>
 		<fastjson.version>1.2.60</fastjson.version>
 		<json-lib.version>2.4</json-lib.version>
-		<httpcomponents.version>4.5</httpcomponents.version>
+		<httpcomponents.version>4.5.13</httpcomponents.version>
 		<log4j.version>1.2.17</log4j.version>
 	</properties>
 	<dependencyManagement>
