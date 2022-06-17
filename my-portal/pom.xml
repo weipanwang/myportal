@@ -32,7 +32,7 @@
 		<solrj.version>4.10.3</solrj.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<quartz.version>2.2.2</quartz.version>
-		<fastjson.version>1.2.60</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<json-lib.version>2.4</json-lib.version>
 		<httpcomponents.version>4.5</httpcomponents.version>
 		<log4j.version>1.2.17</log4j.version>
